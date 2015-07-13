@@ -5,6 +5,7 @@ MAINTAINER Odoo S.A. <info@odoo.com>
 RUN set -x; \
         apt-get update \
         && apt-get install -y --no-install-recommends \
+            sudo \
             ca-certificates \
             curl \
             nodejs \
@@ -43,6 +44,10 @@ EXPOSE 8069 8071
 
 # Set the default config file
 ENV OPENERP_SERVER /etc/odoo/openerp-server.conf
+
+# change odoo password
+RUN echo "odoo:odoo" | chpasswd \
+  && adduser odoo sudo
 
 # Set default user when running the container
 USER odoo
